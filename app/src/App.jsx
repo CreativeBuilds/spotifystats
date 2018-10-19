@@ -3,6 +3,7 @@ import {render} from 'react-dom'
 import Logo from './components/Logo/'
 import Link from './components/Link/'
 import Info from './components/Info/'
+import Stats from './components/Stats/index.jsx'
 
 import ElectronImg from './assets/electron.png'
 import ReactImg from './assets/react.png'
@@ -120,6 +121,20 @@ export default class App extends Component {
             win.close();
             
         })
+        ipcRenderer.on('currentSongPlays', (event, numOfPlays)=>{
+            let currentSong = this.state.currentSong;
+            currentSong.plays = numOfPlays
+            this.setState(()=>{
+                return {currentSong}
+            })
+        })
+        ipcRenderer.on('currentSongTotalTimeListened', (event, totalTimeListened)=>{
+            let currentSong = this.state.currentSong;
+            currentSong.totalTimeListened = totalTimeListened
+            this.setState(()=>{
+                return {currentSong}
+            })
+        })
         ipcRenderer.send("started");
     }
 
@@ -161,7 +176,9 @@ export default class App extends Component {
                     <div id="stats">
                         <div id="statsButton" onClick={()=>{this.openStats()}}>STATS</div>
                         <div id="statsClose" onClick={()=>{this.closeStats()}}>X</div>
-                        <div id="statsContent"></div>
+                        <div id="statsContent">
+                            <Stats {...this.state}></Stats>
+                        </div>
                     </div>
                 ) : (<div></div>)}
             </div>

@@ -42,21 +42,35 @@ eventEmitter.on("amountOfSongWatched", (obj)=>{
 })
 
 eventEmitter.on('newSongPlay', (song) => {
+
     db.update("songs",{_id:song.body.item.id}, {
-        $inc: {plays: 1}
-    }, (err, numAffected, affectedDocuments, upsert)=>{
+        $inc: {plays: 1},
+        $set:{
+            name: song.body.item.name,
+            authors: song.body.item.artists,
+            album: {
+                artists: song.body.item.album.artists,
+                id: song.body.item.album.id,
+                image: song.body.item.album.images[0]
+            },
+            duration_ms: song.body.item.duration_ms
+        }
+    }, {returnUpdatedDocs: true}, (err, numAffected, affectedDocuments, upsert)=>{
         if(err){
             throw err;
         } else {
-            // console.log(numAffected, affectedDocuments, upsert)
-            db.songs.find({_id:song.body.item.id}, (err, some) => {
-                if(err){
-                    throw err;
-                }
-            })
+            console.log("Current plays", affectedDocuments.plays)
+            eventEmitter.emit('currentSongPlays', affectedDocuments.plays);
+            eventEmitter.emit("currentSongTotalTimeListened", affectedDocuments.totalListenTime);
         }
     })
-    db.update("stats",{_id:"songPlays"}, {$inc: {plays: 1}}, {}, ()=>{})
+    
+    db.update("stats",{_id:"songPlays"}, {$inc: {plays: 1}}, {returnUpdatedDocs: true}, (err, numAffected, affectedDocuments)=>{
+        if(err){
+            throw err;
+        }
+        
+    })
 })
 
 

@@ -12,6 +12,7 @@ An Electron based app that logs information from your Spotify account and displa
 - Show stats to user
 - Implement Material-ui
 - Determine the difference between the user skipping to the next song or reversing to a previous song
+- Add a refresh timer every 9-10 minutes for the spotify key using the refresh token
 
 ## Install
 ``` bash

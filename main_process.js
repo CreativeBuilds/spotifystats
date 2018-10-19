@@ -39,6 +39,15 @@ const port = 4444
 
 let currentCode;
 
+events.on('currentSongPlays', (numOfPlays)=>{
+    if(!mainWindow) return;
+    mainWindow.webContents.send('currentSongPlays', numOfPlays);
+})
+events.on('currentSongTotalTimeListened', (totalTimeListened)=>{
+    if(!mainWindow) return;
+    mainWindow.webContents.send('currentSongTotalTimeListened', totalTimeListened);
+})
+
 ipcMain.on('started', ()=>{
     console.log("Got started!");
     if(!currentCode || !mainWindow) return
@@ -64,11 +73,13 @@ server.get('/callback', (req, res) => {
         console.log("On load", http.status);
         if (http.status >= 200) {
             currentCode = JSON.parse(http.responseText);
+            
             console.log("Logged in!")
             mainWindow.webContents.send('ping');
             console.log('Sending info to client')
             mainWindow.webContents.send('loggedIn', currentCode)
             spotifyApi.setAccessToken(currentCode.access_token);
+            spotifyApi.setRefreshToken(currentCode.refresh_token);
             // res.sendFile(__dirname+"/app/index.html")
             events.emit('spotifyLoggedIn')
         } else {
@@ -107,7 +118,8 @@ app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
         width: 800,
-        height: 600
+        height: 600,
+        titleBarStyle: "hiddenInset"
     })
 
     mainWindow.loadURL(`file://${__dirname}/app/index.html`);

@@ -4,6 +4,7 @@ const {app} = require('electron');
 let db = {}
 let userDataPath = app.getPath('userData');
 console.log(path.join(userDataPath, 'stats.json'));
+
 db.songs = new Datastore({filename: path.join(userDataPath, 'users.json'), timestampData: true, autoload: true});
 db.listens = new Datastore({filename: path.join(userDataPath, 'listens.json'), timestampData: true, autoload: true});
 db.stats = new Datastore({filename: path.join(userDataPath, 'stats.json'), timestampData: true, autoload: true});
@@ -23,15 +24,18 @@ db.update = (nameOfDB, query, update, options, callback) => {
         return callback(new Error("No db with that name!", nameOfDB));
     }
 
-    
+    console.log("QUERY", query);
 
     db[nameOfDB].find(query, (err, some)=>{
         if(err){
             return callback(err);
         }
         if(some.length === 0 ){
+            console.log("QUERY:", query, " Did not return anything! Setting upsert to true!")
             // Object already exists update the info
             options.upsert = true;
+        } else {
+            console.log("UPSERT IS FALSE!");
         }
 
         db[nameOfDB].update(query, update, options, callback);

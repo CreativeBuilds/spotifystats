@@ -4,12 +4,14 @@ An Electron based app that logs information from your Spotify account and displa
 ![w10 sample](https://i.imgur.com/YbKacUA.jpg)
 
 ## Done
-- Spotify Log-in
+- Spotify Log-in v0.0.1
+- Add a section for info v0.0.2
+- Save information to a database on client. v0.0.2
 
 ## TODO
-- Save information to a database on client. (NoSQL)
-- Add a section for info
+- Show stats to user
 - Implement Material-ui
+- Determine the difference between the user skipping to the next song or reversing to a previous song
 
 ## Install
 ``` bash

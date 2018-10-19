@@ -1,7 +1,7 @@
 #
 *-lock.json
 config.json
-
+/db/*
 # Logs
 logs
 *.log

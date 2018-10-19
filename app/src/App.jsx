@@ -14,6 +14,7 @@ import { url } from 'inspector';
 
 const Events = require('events');
 
+eventEmitter = ipcRenderer;
 
 
 const logos = [
@@ -48,8 +49,9 @@ export default class App extends Component {
         }
         
         
-        this.eventHandler.on('newSong', (event, obj)=>{
-            console.log("New song", event, obj);
+        this.eventHandler.on('newSong', (obj)=>{
+            console.log("New song", obj);
+            ipcRenderer.send("newSong", obj)
         })
         this.handleSongObj = (currentlyPlaying) => {
             console.log(currentlyPlaying);
@@ -131,6 +133,21 @@ export default class App extends Component {
         }
     }
 
+    openStats(){
+        document.getElementById('stats').style.marginTop = 0;
+    }
+
+    closeStats(){
+        console.log("Should close!");
+        console.log(document.getElementById('stats').style.marginTop);
+        document.getElementById('stats').style.marginTop = "100vh";
+        console.log(document.getElementById('stats').style.marginTop);
+    }
+
+    isLoggedIn(){
+        return this.state.currentSong.songLength !== 0;
+    }
+
     render() {
         const logosRender = logos.map( (logo, index) => {
             return <Logo key = {index} src = { logo } />
@@ -140,6 +157,13 @@ export default class App extends Component {
             <div style={{"overflow":"hidden","display":"flex","justify-content":"center","align-items":"center","height":"100%"}}>
                 <div id="background" style={{"background-image": 'url("'+this.state.currentSong.albumImage+'")'}}></div>
                 {this.choose()}
+                { this.isLoggedIn() ? (
+                    <div id="stats">
+                        <div id="statsButton" onClick={()=>{this.openStats()}}>STATS</div>
+                        <div id="statsClose" onClick={()=>{this.closeStats()}}>X</div>
+                        <div id="statsContent"></div>
+                    </div>
+                ) : (<div></div>)}
             </div>
         )
     }

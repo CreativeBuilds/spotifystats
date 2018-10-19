@@ -1,9 +1,10 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 module.exports = {
 
     watch: true,
-
+    
     target: 'electron-renderer',
 
     entry: './app/src/renderer_process.js',

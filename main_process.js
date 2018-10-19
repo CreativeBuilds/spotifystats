@@ -8,10 +8,12 @@ const {
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const config = require('./config');
 var SpotifyWebApi = require('spotify-web-api-node');
+const db = require('./db.js');
+
+
 
 const Events = require('events');
-var events = new Events.EventEmitter();
-
+var events = require('./songHandler.js');
 var spotifyApi = new SpotifyWebApi({
     clientId: config.client_id,
     clientSecret: config.client_secret,
@@ -23,10 +25,10 @@ var spotifyApi = new SpotifyWebApi({
   events.on('spotifyLoggedIn', ()=>{
       if(isloading) return;
       setInterval(()=>{
-          isloading = true;
+        isloading = true;
         spotifyApi.getMyCurrentPlayingTrack().then(obj => {
-            // console.log(obj.body);
             mainWindow.webContents.send('newSpotifyObj', obj);
+            events.emit('newSong', obj)
         })
       },2000)
   })
@@ -41,6 +43,15 @@ ipcMain.on('started', ()=>{
     console.log("Got started!");
     if(!currentCode || !mainWindow) return
     mainWindow.webContents.send("loggedIn", currentCode);   
+})
+
+ipcMain.on('deleteDB', ()=>{
+    console.log('Got deletedDB!');
+    db.songs.remove({ }, { multi: true }, function (err, numRemoved) {
+        db.loadDatabase(function (err) {
+          // done
+        });
+      });
 })
 
 server.get('/login', (req, res) => res.redirect(`https://accounts.spotify.com/authorize?client_id=${config.client_id}&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4444%2Fcallback&scope=user-read-playback-state user-read-recently-played`))

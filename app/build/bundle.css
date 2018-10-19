@@ -1,0 +1,123 @@
+/*
+ * Every class name will be hashed so it can be used their own component scoped
+ * Use classes instead of ids
+ */
+
+._1WcHgGtKrxqKCsGYj62eVK {
+    height: 100px;
+}
+/*
+ * Every class name will be hashed so it can be used their own component scoped
+ * Use classes instead of ids
+ */
+
+.sFVP9dDAE84wfL1CUC_NG {
+    color: var(--primary-color);    /* Using global constants example */
+}
+
+._1FRk9e-PmvCebL7xwPN-Hf {                 /* Composition example */
+    text-decoration: none;
+}
+#_2U6GxZGAdDijjGVkRqkRr9{
+    margin-top:310px;
+}/*
+ * Global constants goes here
+ */
+:root {
+    --primary-color: #42b983;
+}
+
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/*
+ * Global CSS goes here, it requires to use :global before each style
+ */
+html {
+    height: 100%;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width:100%;
+    margin: auto;
+    overflow:hidden;
+}
+#app {
+    color: #f1f1f1;
+    font-family: Source Sans Pro, Helvetica, sans-serif;
+    text-align: center;
+    width:100%;
+    height:100%;
+    overflow: hidden;
+}
+#app p {
+    text-align: justify;
+}
+.hello {
+    color: var(--primary-color);
+}
+#background {
+    position: absolute;
+    z-index: -1;
+    width: 102%;
+    height: 102%;
+    background-color:#111;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    filter: blur(10px);
+    left: -1%;
+    right: -1%;
+    top: -1%;
+    bottom: -1%;
+    overflow: hidden;
+}
+
+#imageOverlay{
+    position:absolute;
+    top:0%;
+    bottom:0%;
+    left:-5px;
+    right:0%;
+    min-height:300px;
+    min-width:300px;
+    
+}
+#imageOverlay img{
+    display:block;
+    border: 5px solid #f1f1f1;
+    position:absolute;
+    top:0%;
+    bottom:0%;
+    left:0%;
+    right:0%;
+    min-height:300px;
+    min-width:300px;
+}
+
+#songProgress {
+    display:block;
+    width: 300px;
+    height:15px;
+    background:rgba(150, 143, 143, 0);
+    margin-top: 290px;
+    z-index:5;
+    margin-left:5px;
+    position:absolute;
+}
+#songProgress div{
+    background:#f1f1f1;
+    height:15px;
+    z-index:6;
+    transition: width 2s;
+} 
+
+#songInfo{
+    margin-top:315px;
+    color:#f1f1f1;
+}

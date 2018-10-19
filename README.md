@@ -1,7 +1,15 @@
 # Spotify Stats
 An Electron based app that logs information from your Spotify account and displays that information to you.
 
-<!-- ![w10 sample](https://user-images.githubusercontent.com/11739632/37350993-59ad48d4-26da-11e8-9ac5-d3539cf1e2f9.PNG) -->
+![w10 sample](https://i.imgur.com/YbKacUA.jpg)
+
+## Done
+- Spotify Log-in
+
+## TODO
+- Save information to a database on client. (NoSQL)
+- Add a section for info
+- Implement Material-ui
 
 ## Install
 ``` bash
@@ -65,10 +73,3 @@ $ npm start
     ├── webpack.config.js               # Webpack 4 setup
 ```
 
-## Done
-- Spotify Log-in
-
-## TODO
-- Save information to a database on client. (NoSQL)
-- Add a section for info
-- Implement Material-ui
